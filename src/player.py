@@ -1,6 +1,6 @@
 import pygame
 
-from configs import SCREEN_WIDTH, MAP_COLLISION_LAYER
+from configs import DISPLAY_WIDTH, MAP_COLLISION_LAYER
 from spritesheet import SpriteSheet
 
 class Player(pygame.sprite.Sprite):
@@ -80,9 +80,9 @@ class Player(pygame.sprite.Sprite):
                 self.rect.left = tile.rect.right
         
         #Move screen if player reaches screen bounds
-        if self.rect.right >= SCREEN_WIDTH - 200:
-            difference = self.rect.right - (SCREEN_WIDTH - 200)
-            self.rect.right = SCREEN_WIDTH - 200
+        if self.rect.right >= DISPLAY_WIDTH - 200:
+            difference = self.rect.right - (DISPLAY_WIDTH - 200)
+            self.rect.right = DISPLAY_WIDTH - 200
             self.currentLevel.shiftLevel(-difference)
         
         #Move screen is player reaches screen bounds
@@ -149,7 +149,6 @@ class Player(pygame.sprite.Sprite):
                 else:
                     self.image = self.runningLeft[self.runningFrame]
 
-    #Make player jump
     def jump(self):
         #Check if player is on ground
         self.rect.y += 2
@@ -163,8 +162,7 @@ class Player(pygame.sprite.Sprite):
                 self.image = self.jumpingLeft[0]
                 
             self.changeY = -6
-    
-    #Draw player
+
     def draw(self, screen):
         screen.blit(self.image, self.rect)
 

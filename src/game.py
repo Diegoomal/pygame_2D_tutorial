@@ -9,7 +9,6 @@ from spritesheet import SpriteSheet
 
 class Game:
 
-
     def __init__(self, screen):
         
         self.screen = screen
@@ -33,7 +32,6 @@ class Game:
         self.text_fps = Text('fps', (0, 24))
         self.rect = pygame.Rect(10, 10, 100, 100)
         print(self)
-
 
     def run(self):
         while self.running:
@@ -69,7 +67,6 @@ class Game:
 
         pygame.quit()
 
-
     def draw(self):
         self.screen.fill(BACKGROUND)
         self.currentLevel.draw(self.screen)
@@ -81,7 +78,6 @@ class Game:
         self.text_fps.draw(self.screen)
         pygame.draw.rect(self.screen, RED, self.rect, 1)
         pygame.display.flip()
-
 
     def __str__(self):
         return f'{self.__class__.__name__} levels:{len(self.levels)}'

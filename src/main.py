@@ -1,22 +1,21 @@
 import pygame, pytmx
 
-from configs import SCREEN_WIDTH, SCREEN_HEIGHT, GAME_TITLE
+from menu import build_menu
 
-from game import Game
+from configs import GAME_TITLE, DISPLAY_WIDTH, DISPLAY_HEIGHT
 
 
 def main():
 
     pygame.init()
 
-    screen = pygame.display.set_mode(
-        [SCREEN_WIDTH, SCREEN_HEIGHT]
+    display = pygame.display.set_mode(
+        [DISPLAY_WIDTH, DISPLAY_HEIGHT]
     )
     
     pygame.display.set_caption(GAME_TITLE)
 
-    game = Game(screen)
-    game.run()
+    build_menu(display)
 
 
 if __name__ == "__main__":
