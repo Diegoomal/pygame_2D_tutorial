@@ -152,7 +152,11 @@ class Player(pygame.sprite.Sprite):
     def jump(self):
         #Check if player is on ground
         self.rect.y += 2
-        tileHitList = pygame.sprite.spritecollide(self, self.currentLevel.layers[MAP_COLLISION_LAYER].tiles, False)
+        tileHitList = pygame.sprite.spritecollide(
+            self, 
+            self.currentLevel.layers[MAP_COLLISION_LAYER].tiles,
+            False
+        )
         self.rect.y -= 2
         
         if len(tileHitList) > 0:

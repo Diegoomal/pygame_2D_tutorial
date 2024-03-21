@@ -46,6 +46,7 @@ def build_menu(display):
                     print("Opções")
                 elif 300 <= mouse_pos[0] <= 500 and 400 <= mouse_pos[1] <= 450:
                     print("Quit")
+                    menu = False
                     pygame.quit()
                     sys.exit()
 

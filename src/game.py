@@ -1,17 +1,19 @@
+import sys
 import pygame
 
-from configs import BACKGROUND, RED, MAP_COLLISION_LAYER
 from text import Text
 from level import Level
 from player import Player
 from spritesheet import SpriteSheet
+from configs import BACKGROUND, RED, MAP_COLLISION_LAYER
+from configs import BLACK, WHITE, RED, DISPLAY_WIDTH, DISPLAY_HEIGHT
 
 
 class Game:
 
-    def __init__(self, screen):
+    def __init__(self, display):
         
-        self.screen = screen
+        self.display = display
 
         #Set up a level to load
         self.currentLevelNumber = 0
@@ -43,9 +45,11 @@ class Game:
                         self.debugging = not self.debugging
                         print(f'debug: {self.debugging}')
                     elif event.key == pygame.K_t:
-                        #print('resolution:', pygame.TIMER_RESOLUTION)
                         print('ticks:', pygame.time.get_ticks())
-                        
+                    elif event.key == pygame.K_ESCAPE:
+                        print('ESC pressed')
+                        self.pause_menu()
+
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if pygame.key.get_mods() & 256:
                         self.player.rect.center = event.pos
@@ -68,16 +72,57 @@ class Game:
         pygame.quit()
 
     def draw(self):
-        self.screen.fill(BACKGROUND)
-        self.currentLevel.draw(self.screen)
-        self.player.draw(self.screen)
+        self.display.fill(BACKGROUND)
+        self.currentLevel.draw(self.display)
+        self.player.draw(self.display)
         if self.debugging:
-            self.screen.blit(self.overlay, [100, 100])
+            self.display.blit(self.overlay, [100, 100])
 
-        self.text.draw(self.screen)
-        self.text_fps.draw(self.screen)
-        pygame.draw.rect(self.screen, RED, self.rect, 1)
+        self.text.draw(self.display)
+        self.text_fps.draw(self.display)
+        pygame.draw.rect(self.display, RED, self.rect, 1)
         pygame.display.flip()
 
     def __str__(self):
         return f'{self.__class__.__name__} levels:{len(self.levels)}'
+
+
+
+
+
+    def draw_text(self, text, font, color, surface, x, y):
+        text_obj = font.render(text, True, color)
+        text_rect = text_obj.get_rect()
+        text_rect.center = (x, y)
+        surface.blit(text_obj, text_rect)
+
+    def draw_button(self, text, font, color, surface, x, y, width, height):
+        pygame.draw.rect(surface, color, (x, y, width, height))
+        self.draw_text(text, font, BLACK, surface, x + width // 2, y + height // 2)
+
+    def pause_menu(self):
+
+        font = pygame.font.Font(None, 36)
+        self.draw_text('PAUSE', font, BLACK, self.display, DISPLAY_WIDTH // 2, 100)
+        self.draw_button('Continuar', font, RED, self.display, 300, 200, 200, 50)
+        self.draw_button('Sair', font, RED, self.display, 300, 300, 200, 50)
+    
+        is_paused = True
+
+        while is_paused:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    mouse_pos = pygame.mouse.get_pos()
+                    if 300 <= mouse_pos[0] <= 500 and 200 <= mouse_pos[1] <= 250:
+                        print('unpaused')
+                        is_paused = False
+                    elif 300 <= mouse_pos[0] <= 500 and 300 <= mouse_pos[1] <= 350:
+                        print("Quit")
+                        pygame.quit()
+                        sys.exit()
+
+            pygame.display.update()
+            self.clock.tick(60)

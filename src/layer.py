@@ -18,7 +18,11 @@ class Layer:
             for y in range(self.mapObject.height):
                 img = self.mapObject.get_tile_image(x, y, self.index)
                 if img:
-                    tile = Tile(img, x * self.mapObject.tilewidth, y * self.mapObject.tileheight)
+                    tile = Tile(
+                        img,
+                        x * self.mapObject.tilewidth,
+                        y * self.mapObject.tileheight
+                    )
                     self.tiles.add(tile)
         print(self)
 
