@@ -19,19 +19,16 @@ def draw_button(text, font, color, surface, x, y, width, height):
 
 # Função principal do menu
 def build_menu(display):
+
+    display.fill(WHITE)
     font = pygame.font.Font(None, 36)
+    draw_text('Menu Principal', font, BLACK, display, DISPLAY_WIDTH // 2, 100)
+    draw_button('Iniciar Jogo', font, RED, display, 250, 200, 200, 50)
+    draw_button('Opções', font, RED, display, 250, 300, 200, 50)
+    draw_button('Sair', font, RED, display, 250, 400, 200, 50)
+    
     menu = True
-
     while menu:
-        display.fill(WHITE)
-        draw_text('Menu Principal', font, BLACK, display, DISPLAY_WIDTH // 2, 100)
-        
-        # Desenhar os botões
-        draw_button('Iniciar Jogo', font, RED, display, 300, 200, 200, 50)
-        draw_button('Opções', font, RED, display, 300, 300, 200, 50)
-        draw_button('Sair', font, RED, display, 300, 400, 200, 50)
-
-        # Eventos do Pygame
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -49,5 +46,4 @@ def build_menu(display):
                     menu = False
                     pygame.quit()
                     sys.exit()
-
         pygame.display.update()

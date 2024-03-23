@@ -36,10 +36,13 @@ class Game:
         print(self)
 
     def run(self):
+        
         while self.running:
             for event in pygame.event.get():
+
                 if event.type == pygame.QUIT:
                     self.running = False
+                
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_d:
                         self.debugging = not self.debugging
@@ -48,7 +51,7 @@ class Game:
                         print('ticks:', pygame.time.get_ticks())
                     elif event.key == pygame.K_ESCAPE:
                         print('ESC pressed')
-                        self.pause_menu()
+                        self.pause_game()
 
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if pygame.key.get_mods() & 256:
@@ -67,7 +70,7 @@ class Game:
 
             self.player.update()
             self.draw()
-            self.clock.tick(60)
+            self.clock.tick(60) 
 
         pygame.quit()
 
@@ -100,15 +103,14 @@ class Game:
         pygame.draw.rect(surface, color, (x, y, width, height))
         self.draw_text(text, font, BLACK, surface, x + width // 2, y + height // 2)
 
-    def pause_menu(self):
-
+    def pause_game(self):
         font = pygame.font.Font(None, 36)
         self.draw_text('PAUSE', font, BLACK, self.display, DISPLAY_WIDTH // 2, 100)
-        self.draw_button('Continuar', font, RED, self.display, 300, 200, 200, 50)
-        self.draw_button('Sair', font, RED, self.display, 300, 300, 200, 50)
+        self.draw_button('Continuar', font, RED, self.display, 250, 200, 200, 50)
+        self.draw_button('Sair', font, RED, self.display, 250, 300, 200, 50)
+        self.display.fill((255, 0, 0, 50), special_flags=pygame.BLEND_RGBA_MULT)
     
         is_paused = True
-
         while is_paused:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -117,12 +119,11 @@ class Game:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_pos = pygame.mouse.get_pos()
                     if 300 <= mouse_pos[0] <= 500 and 200 <= mouse_pos[1] <= 250:
-                        print('unpaused')
+                        print('continue')
                         is_paused = False
                     elif 300 <= mouse_pos[0] <= 500 and 300 <= mouse_pos[1] <= 350:
                         print("Quit")
                         pygame.quit()
                         sys.exit()
-
             pygame.display.update()
             self.clock.tick(60)
